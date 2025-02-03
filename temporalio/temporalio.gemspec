@@ -3,10 +3,10 @@
 require_relative 'lib/temporalio/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'temporalio'
+  spec.name = 'amit-temporalio'
   spec.version = Temporalio::VERSION
   spec.authors = ['Temporal Technologies Inc']
-  spec.email = ['sdk@temporal.io']
+  spec.email = ['amitlin.dev@gmail.com']
 
   spec.summary = 'Temporal.io Ruby SDK'
   spec.homepage = 'https://github.com/temporalio/sdk-ruby'
