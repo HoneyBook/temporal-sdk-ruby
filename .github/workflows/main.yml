@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.rubyPlatform }}-gem
-          path: ${{ steps.cross-gem.outputs.gem-path }}
+          path: "temporalio/pkg/*.gem"
 
   build-source-gem:
     runs-on: ubuntu-latest
