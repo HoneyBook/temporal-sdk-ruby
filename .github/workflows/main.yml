@@ -11,9 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO(cretz): Enable x64-mingw-ucrt if we can figure out Windows issue, see
-        # https://github.com/temporalio/sdk-ruby/issues/172
-        rubyPlatform: ["aarch64-linux", "x86_64-linux", "arm64-darwin", "x86_64-darwin"]
+        rubyPlatform: ["aarch64-linux", "x86_64-linux", "arm64-darwin", "x86_64-darwin", "x86_64-linux-musl", "aarch64-linux-musl"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,6 +27,10 @@ jobs:
           cargo-vendor: true
           working-directory: ./temporalio
           cache-version: v1-${{ matrix.rubyPlatform }}
+
+      - name: Install musl-tools (for Alpine builds)
+        if: contains(matrix.rubyPlatform, 'musl')
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
 
       - name: Cross compile gem
         uses: oxidize-rb/actions/cross-gem@v1
@@ -80,15 +82,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO(cretz): Enable Linux ARM. See ci.yaml comment for why we can't right now.
-        #
-        # TODO(cretz): Enable windows-latest if we can figure out Windows issue, see
-        #   https://github.com/temporalio/sdk-ruby/issues/172
         os: [ubuntu-latest, macos-intel, macos-latest]
         rubyVersion: ["3.2", "3.3", "3.4"]
         include:
           - os: ubuntu-latest
             rubyPlatform: x86_64-linux
+          - os: ubuntu-latest
+            rubyPlatform: x86_64-linux-musl
           - os: macos-intel
             runsOn: macos-13
             rubyPlatform: x86_64-darwin
