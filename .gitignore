@@ -6,3 +6,4 @@ Gemfile.lock
 temporalio/test/golangworker/golangworker
 temporalio/.yardoc
 temporalio/doc
+.idea
